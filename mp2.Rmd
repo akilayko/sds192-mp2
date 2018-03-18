@@ -11,6 +11,7 @@ load("house_elections.rda")
 load("candidates.rda")
 load("committees.rda")
 load("contributions.rda")
+library(tidyverse)
 ```
 
 ideas for what to display
@@ -18,3 +19,16 @@ ideas for what to display
 - see if higher spending correlates with a win (relate spending, a specfic candidate, and win/lose)
 - name and types/designations of the highest-contributing committees
 
+```{r}
+#spending by state (which state's elections are most contributed to?)
+
+#wrangling
+state_spending <- contributions %>%
+  group_by(state) %>%
+  summarise(total_cont = sum(transaction_amt)) %>%
+  arrange(desc(total_cont))
+
+#plotting
+ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont)) +
+  geom_col()
+```
