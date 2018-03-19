@@ -35,7 +35,12 @@ ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont
 ```
 
 ```{r}
-#see if higher spending correlates with a win (relate spending, a specfic candidate, and win/lose)
+#see if higher spending correlates with a win (relate spending, a specfic candidate, and win/lose) 
+#relate committee to candidate
+#calculate spending by committee
+#arrange that list by most to least money
+#graph: x-axis is individual candidates, y is amount spent on thier committee, color is W/L 
+#one table with candidate ID, amount spent on them, and W/L
 
 ```
 
