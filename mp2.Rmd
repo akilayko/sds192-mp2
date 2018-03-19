@@ -41,4 +41,6 @@ ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont
 
 ```{r}
 # name and types/designations of the highest-contributing committees
+committee_org <- committees %>%
+  select(cmte_id, cmte_name, cmte_state, cmte_dsgn, org_type, cand_id)
 ```
