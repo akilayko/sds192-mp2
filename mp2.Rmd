@@ -30,7 +30,8 @@ state_spending <- contributions %>%
 
 #plotting
 ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont)) +
-  geom_col()
+  geom_col() +
+  theme(axis.text.x = element_text(size = rel(0.9), angle = 80, hjust = 1))
 ```
 
 ```{r}
