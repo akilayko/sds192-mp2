@@ -81,9 +81,3 @@ mutable_data <- contri_commit %>%
 ggplot(mutable_data, aes(x = cmte_state, y = transaction_amt, color = org_type)) +
 geom_point(position = "jitter")
 ```
-
-```{r}
-# name and types/designations of the highest-contributing committees
-committee_org <- committees %>%
-  select(cmte_id, cmte_name, cmte_state, cmte_dsgn, org_type, cand_id)
-```
