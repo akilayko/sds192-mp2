@@ -42,6 +42,9 @@ ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont
 #graph: x-axis is individual candidates, y is amount spent on thier committee, color is W/L 
 #one table with candidate ID, amount spent on them, and W/L
 
+#wrangling
+cand_spending <- contributions %>%
+  
 ```
 
 ```{r}
