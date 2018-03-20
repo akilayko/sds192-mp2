@@ -58,6 +58,15 @@ contribution_info <- contributions %>%
 # joining the two observations
 contri_commit <- committee_info %>%
   full_join(contribution_info, by = c("cmte_id", "cand_id"))
+
+# graphing it
+mutable_data <- contri_commit %>%
+  filter(!is.na(transaction_amt)) %>%
+  group_by(org_type) %>%
+  arrange(desc(transaction_amt))
+
+ggplot(mutable_data, aes(x = cmte_state, y = transaction_amt, color = org_type)) +
+geom_point(position = "jitter")
 ```
 
 ```{r}
