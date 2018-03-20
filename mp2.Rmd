@@ -48,13 +48,16 @@ contributions_org <- contributions %>%
   summarize(transaction_sum = sum(transaction_amt))
 
 house_elections_org <- house_elections %>%
-  select(fec_id, ge_winner) %>%
+  select(fec_id, ge_winner, incumbent) %>%
   rename(cand_id = fec_id)
 
 cand_spending <- inner_join(contributions_org, house_elections_org, by = "cand_id")
 
 ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = ge_winner)) +
-  geom_point()
+  geom_point() +
+  facet_wrap(~incumbent) +
+  theme(axis.text.x = element_blank())
+
 ```
 
 ```{r}
