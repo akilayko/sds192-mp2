@@ -39,7 +39,7 @@ ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont
 #relate committee to candidate
 #calculate spending by committee
 #arrange that list by most to least money
-#graph: x-axis is individual candidates, y is amount spent on thier committee, color is W/L 
+#graph: x-axis is individual candidates, y is amount spent on thier committee, color is W/L
 #one table with candidate ID, amount spent on them, and W/L
 
 #wrangling
@@ -51,4 +51,20 @@ cand_spending <- contributions %>%
 # name and types/designations of the highest-contributing committees
 committee_org <- committees %>%
   select(cmte_id, cmte_name, cmte_state, cmte_dsgn, org_type, cand_id)
+```
+
+```{r}
+contributions_org <- contributions %>%
+  select(cand_id, transaction_amt) %>%
+  group_by(cand_id) %>%
+  summarize(transaction_sum = sum(transaction_amt))
+
+house_elections_org <- house_elections %>%
+  select(fec_id, ge_winner) %>%
+  rename(cand_id = fec_id)
+
+cand_spending <- inner_join(contributions_org, house_elections_org, by = "cand_id")
+
+ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = ge_winner)) +
+  geom_point()
 ```
