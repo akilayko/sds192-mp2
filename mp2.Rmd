@@ -6,7 +6,6 @@ output:
   html_document:
     code_folding: show
 ---
-
 ```{r, include=FALSE}
 #loading the data
 load("house_elections.rda")
@@ -15,11 +14,6 @@ load("committees.rda")
 load("contributions.rda")
 library(tidyverse)
 ```
-
-ideas for what to display
-- spending by state (which state's elections are most contributed to?)
-- see if higher spending correlates with a win (relate spending, a specfic candidate, and win/lose)
-- name and types/designations of the highest-contributing committees
 
 ```{r}
 #spending by state (which state's elections are most contributed to?)
@@ -33,7 +27,12 @@ state_spending <- contributions %>%
 #plotting
 ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont)) +
   geom_col() +
-  theme(axis.text.x = element_text(size = rel(0.9), angle = 80, hjust = 1))
+  theme(axis.text.x = element_text(size = rel(0.9), angle = 80, hjust = 1)) +
+  ggtitle("Title") +
+  labs(x = "State", y = "Total Contribution (million dollars)") +
+  scale_y_continuous(breaks = c(0e+00, 1e+08, 2e+08, 3e+08, 4e+08),
+                     labels = c("0", "100", "200", "300", "400"))
+
 ```
 
 ```{r}
@@ -64,9 +63,9 @@ ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = new_ge_
   facet_wrap(~new_incumbent) +
   theme(axis.text.x = element_blank()) +
   ggtitle("Title") +
-  labs(x = "Candidate", y = "Transaction Sum (dollars)", col = "Loss or Win") +
+  labs(x = "Candidate", y = "Transaction Sum (million dollars)", col = "Loss or Win") +
   scale_y_continuous(breaks = c(0e+00, 2e+06, 4e+06, 6e+06),
-                     labels = c("0", "2,000,000", "4,000,000", "6,000,000"))
+                     labels = c("0", "2", "4", "6"))
 
 ```
 
