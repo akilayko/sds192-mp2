@@ -81,3 +81,4 @@ mutable_data <- contri_commit %>%
 ggplot(mutable_data, aes(x = cmte_state, y = transaction_amt, color = org_type)) +
 geom_point(position = "jitter")
 ```
+[^1]: Link to GitHub repository: https://github.com/akilayko/sds192-mp2
