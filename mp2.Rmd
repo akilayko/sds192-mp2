@@ -53,10 +53,18 @@ house_elections_org <- house_elections %>%
 
 cand_spending <- inner_join(contributions_org, house_elections_org, by = "cand_id")
 
-ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = ge_winner)) +
+cand_spending <- cand_spending %>%
+  mutate(new_incumbent = ifelse(incumbent == "TRUE", "Incumbent", "Not Incumbent"),
+         new_ge_winner = ifelse(ge_winner == "W", "Win", "Loss"))
+
+ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = new_ge_winner)) +
   geom_point() +
-  facet_wrap(~incumbent) +
-  theme(axis.text.x = element_blank())
+  facet_wrap(~new_incumbent) +
+  theme(axis.text.x = element_blank()) +
+  ggtitle("Title") +
+  labs(x = "Candidate", y = "Transaction Sum (dollars)", col = "Loss or Win") +
+  scale_y_continuous(breaks = c(0e+00, 2e+06, 4e+06, 6e+06),
+                     labels = c("0", "2,000,000", "4,000,000", "6,000,000"))
 
 ```
 
