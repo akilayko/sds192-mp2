@@ -62,11 +62,11 @@ ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = ge_winn
 
 # wrangling relevant variables from committee
 committee_info <- committees %>%
-  select(cmte_id, cmte_name, cmte_state, cmte_dsgn, org_type, cand_id)
+  select(cmte_id, cmte_dsgn, org_type, cand_id)
 
 # wrangling relevant data from contributions
 contribution_info <- contributions %>%
-  select(cmte_id, entity_type, name, state, transaction_amt, other_id, cand_id)
+  select(cmte_id, entity_type, transaction_amt, other_id, cand_id)
 
 # joining the two observations
 contri_commit <- committee_info %>%
@@ -74,10 +74,13 @@ contri_commit <- committee_info %>%
 
 # graphing it
 mutable_data <- contri_commit %>%
-  filter(!is.na(transaction_amt)) %>%
+  filter(!is.na(org_type)) %>%
   group_by(org_type) %>%
   arrange(desc(transaction_amt))
 
-ggplot(mutable_data, aes(x = cmte_state, y = transaction_amt, color = org_type)) +
-geom_point(position = "jitter")
+ggplot(mutable_data, aes(x = org_type, y = transaction_amt, fill = cmte_dsgn)) +
+  geom_bar(stat = "identity", position = position_dodge(), width  = 0.7) +
+  theme(legend.position = "top")
+
+# write a function for the graphical representation of this!
 ```
