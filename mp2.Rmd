@@ -50,7 +50,9 @@ ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont
                      labels = c("0", "100", "200", "300", "400"))
 ```
 
-For our second graph, we wanted to examine if there was a correlation between the amount of money given to a candidate committee and whether or not the candidate won or lost in the general election. We also wanted to examine whether a candidate's incumbency affected win or loss.  We mapped candidate committee to the x-axis, transaction sum of contributions to the y-axis, loss or win to color, and incumbency by facet wrap.
+For our second graph, we wanted to examine if there was a correlation between the amount of money given to a candidate committee and whether or not the candidate won or lost in the general election.  We additionally wanted to examine whether a candidate's incumbency affected win or loss.  To accomplish this, we mapped candidate committee to the x-axis and transaction sum of contributions to the y-axis, using a dot plot to most effectively show overall trends.  We then mapped win or loss to color for a clear contrast, and we facet wrapped by incumbency to display two distinct graphs side by side.
+
+From this graph, we can learn that higher contributions do not necessarily correlate to victory, that incumbents are more likely to win than non-incumbents, and that victories are most likely for those who receive relatively little in contributions and are incumbent.  The results contrasted with our expectation that the more money contributed to the committee, the more likely the candidate was to win.  However, the results did match our expectation that incumbents have a higher frequency of victory due to their experience and visibility among the constituency.
 
 ```{r, warning = FALSE, message = FALSE}
 # sum of money given to candidate committees
