@@ -138,8 +138,10 @@ ggplot(mutable_data, aes(x = reorder(entity_type, -transaction_sum), y = transac
   theme(axis.text.x = element_text(size = rel(0.9), angle = 7.5, hjust = 1))
 }
 
+# making a plot by House candidates
 plot_3 <- contributions_by(govt_entity = "H")
 
+# bells and whistles
 plot_3 +
   ggtitle("Contribution to House Candidates by Entity Type\n(2011-2012 Federal Election Cycle)") +
   labs(x = "Entity Type", y = "Net Amount of Donations by Entities (millions of dollars)", fill = "Percentage\nof Entities") +
