@@ -89,18 +89,20 @@ ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = new_ge_
                      labels = c("0", "2", "4", "6"))
 ```
 
+For our third graph, we wanted to examine if there is a trend with the categorization (entity types) of the highest campaign donors during this election cycle. 
+
 ```{r, warning = FALSE, message = FALSE}
 # name and types/designations of the highest-contributing committees
 
 # write a function for the graphical representation of this!
-contributions_by <- function(category) {
+contributions_by <- function(govt_entity) {
 # wrangling relevant variables from committee
 committee_info <- committees %>%
   select(cmte_id, cmte_dsgn, cmte_type, org_type, cand_id)
 
 # wrangling relevant data from contributions
 contribution_info <- contributions %>%
-  select(cmte_id, entity_type, org_type, transaction_amt, other_id, cand_id)
+  select(cmte_id, entity_type, transaction_amt, other_id, cand_id)
 
 # wrangling data from house elections
 house_elections_info <- house_elections %>%
@@ -117,11 +119,11 @@ contri_commit <- contri_commit %>%
 
 # data for graph
 mutable_data <- contri_commit %>%
-  filter(!is.na(category)) %>%
-  group_by(category) %>%
-  filter(str_detect(cand_id, "H")) %>%
-  mutate(category_count = n(),
-         percent = category_count/nrow(mutable_data)*100,
+  filter(!is.na(entity_type)) %>%
+  group_by(entity_type) %>%
+  filter(str_detect(cand_id, govt_entity)) %>%
+  mutate(entity_count = n(),
+         percent = entity_count/nrow(mutable_data)*100,
          transaction_sum = sum(transaction_amt)) %>%
   arrange(desc(transaction_sum))
 
@@ -131,11 +133,11 @@ ggplot(mutable_data, aes(x = reorder(entity_type, -transaction_sum), y = transac
   theme(axis.text.x = element_text(size = rel(0.9), angle = 7.5, hjust = 1))
 }
 
-plot_3 <- contributions_by(entity_type)
+plot_3 <- contributions_by(govt_entity = "H")
 
 plot_3 +
-  ggtitle("Contribution to Candidates by Entity Type") +
-  labs(x = "Entity Type", y = "Sum of Donations by Entities (millions of dollars)") +
+  ggtitle("Contribution to House Candidates by Entity Type") +
+  labs(x = "Entity Type", y = "Net Amount of Donations by Entities (millions of dollars)") +
   scale_x_discrete(labels = c("Inv.", "Cand.", "Cand. Cmte.", "Cmte.", "Indv.", "Org.", "Pol. Actn. Cmte.", "Pty. Org.")) +
   scale_y_continuous(breaks = c(0, 50000000, 100000000, 150000000, 200000000, 250000000, 300000000, 350000000),
                      labels = c("0", "50", "100", "150", "200", "250", "300", "350"))
