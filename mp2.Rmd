@@ -4,7 +4,7 @@ author: "Karina Lieb, Alexis Kilayko, and Olivia Baldwin"
 date: "March 22, 2018"
 output: 
   html_document:
-    code_folding: show
+    code_folding: hide
 ---
 
 ```{r, include = FALSE}
@@ -16,7 +16,7 @@ load("contributions.rda")
 library(tidyverse)
 ```
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
 # spending by state (which state's elections are most contributed to?)
 
 
@@ -38,14 +38,16 @@ ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont
   ggtitle("Spending By State") +
   labs(x = "State", y = "Total Contribution (million dollars)") +
 
-  ggtitle("Total Contributions to Committees by State in the 2011-2012 Federal Election Cycle") +
+  ggtitle("Total Contributions to Committees by State \n(2011-2012 Federal Election Cycle)") +
   labs(x = "State", y = "Total Contributions (millions of dollars)") +
 
   scale_y_continuous(breaks = c(0e+00, 1e+08, 2e+08, 3e+08, 4e+08),
                      labels = c("0", "100", "200", "300", "400"))
 ```
 
-```{r}
+For our second graph, we wanted to examine if there was a correlation between the amount of money given to a candidate committee and whether or not the candidate won or lost in the general election. We also wanted to examine whether a candidate's incumbency affected win or loss.  We mapped candidate committee to the x-axis, transaction sum of contributions to the y-axis, loss or win to color, and incumbency by facet wrap.
+
+```{r, warning = FALSE, message = FALSE}
 # sum of money given to candidate committees
 
 # wrangling : creating new data frame with relevant information from contributions data frame
@@ -73,17 +75,14 @@ ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = new_ge_
   facet_wrap(~new_incumbent) +
   theme(axis.text.x = element_blank()) +
 
-    ggtitle("Sum of Money Given to House Candidate Committees \n(2011-2012 Federal Election Cycle)") +
+  ggtitle("Sum of Money Given to House Candidate Committees \n(2011-2012 Federal Election Cycle)") +
   labs(x = "Candidate Committee", y = "Transaction Sum (millions of dollars)", col = "Loss or Win in General Election") +
-
-  ggtitle("Sum of Money Given to House Candidate Committees \n(2011-2012 Federal Election Cycle") +
-  labs(x = "Candidate", y = "Transaction Sum (million dollars)", col = "Loss or Win") +
 
   scale_y_continuous(breaks = c(0e+00, 2e+06, 4e+06, 6e+06),
                      labels = c("0", "2", "4", "6"))
 ```
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message = FALSE}
 # name and types/designations of the highest-contributing committees
 
 # wrangling relevant variables from committee
