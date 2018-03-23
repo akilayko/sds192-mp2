@@ -6,7 +6,8 @@ output:
   html_document:
     code_folding: show
 ---
-```{r, include=FALSE}
+
+```{r, include = FALSE}
 #loading the data
 load("house_elections.rda")
 load("candidates.rda")
@@ -16,21 +17,30 @@ library(tidyverse)
 ```
 
 ```{r}
-#spending by state (which state's elections are most contributed to?)
+# spending by state (which state's elections are most contributed to?)
+
 
 #wrangling : creating new data frame with relevant information from contributions data frame
+
+# wrangling : creating new data frame with relevant information from contributions data frame
+
 state_spending <- contributions %>%
   subset(state != '') %>% 
   group_by(state) %>%
   summarise(total_cont = sum(transaction_amt)) %>%
   arrange(desc(total_cont))
 
-#plotting
+# plotting
 ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont)) +
   geom_col() +
   theme(axis.text.x = element_text(size = rel(0.9), angle = 80, hjust = 1)) +
+
+  ggtitle("Spending By State") +
+  labs(x = "State", y = "Total Contribution (million dollars)") +
+
   ggtitle("Total Contributions to Committees by State in the 2011-2012 Federal Election Cycle") +
   labs(x = "State", y = "Total Contributions (millions of dollars)") +
+
   scale_y_continuous(breaks = c(0e+00, 1e+08, 2e+08, 3e+08, 4e+08),
                      labels = c("0", "100", "200", "300", "400"))
 ```
@@ -62,8 +72,13 @@ ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = new_ge_
   geom_point() +
   facet_wrap(~new_incumbent) +
   theme(axis.text.x = element_blank()) +
-  ggtitle("Sum of Money Given to House Candidate Committees \n(2011-2012 Federal Election Cycle)") +
+
+    ggtitle("Sum of Money Given to House Candidate Committees \n(2011-2012 Federal Election Cycle)") +
   labs(x = "Candidate Committee", y = "Transaction Sum (millions of dollars)", col = "Loss or Win in General Election") +
+
+  ggtitle("Sum of Money Given to House Candidate Committees \n(2011-2012 Federal Election Cycle") +
+  labs(x = "Candidate", y = "Transaction Sum (million dollars)", col = "Loss or Win") +
+
   scale_y_continuous(breaks = c(0e+00, 2e+06, 4e+06, 6e+06),
                      labels = c("0", "2", "4", "6"))
 ```
