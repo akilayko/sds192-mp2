@@ -16,7 +16,11 @@ load("contributions.rda")
 library(tidyverse)
 ```
 
+<<<<<<< HEAD
+This graphic shows 
+=======
 
+>>>>>>> 74d5389085da73c12d850f3cfac03ceed6f6ccfe
 
 ```{r, warning = FALSE, message = FALSE}
 # spending by state (which state's elections are most contributed to?)
@@ -42,10 +46,10 @@ entity_picker <- function(entity){
     labs(x = "State", y = "Total Contribution (million dollars)") +
   
     ggtitle(paste("Total Contributions from", entity, "Committees by State \n(2011-2012 Federal Election Cycle)", sep = " ")) +
-    labs(x = "State", y = "Total Contributions (millions of dollars)") +
-  
-    scale_y_continuous(breaks = c(0e+00, 1e+08, 2e+08, 3e+08, 4e+08),
-                       labels = c("0", "100", "200", "300", "400"))
+    labs(x = "State", y = "Total Contributions (millions of dollars)") #+
+
+    # scale_y_continuous(breaks = c(0e+00, 1e+08, 2e+08, 3e+08, 4e+08),
+    #                    labels = c("0", "100", "200", "300", "400"))
 }
 
 entity_picker(entity = "PAC")
