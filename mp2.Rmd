@@ -44,14 +44,8 @@ entity_picker <- function(entity){
   
     ggtitle(paste("Total Contributions from", entity, "Committees by State \n(2011-2012 Federal Election Cycle)", sep = " ")) +
     labs(x = "State", y = "Total Contributions (millions of dollars)") +
-<<<<<<< HEAD
-    
-    scale_y_continuous(trans = "log2")
-=======
 
-    scale_y_continuous(breaks = c(0e+00, 1e+08, 2e+08, 3e+08, 4e+08),
-                       labels = c("0", "100", "200", "300", "400"))
->>>>>>> 8a7b3821bd8934c337e0411c7e8baae867eebe5d
+    scale_y_continuous(trans = "log2")
 }
 
 entity_picker(entity = "PAC") +
