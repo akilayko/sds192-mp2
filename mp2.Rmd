@@ -44,13 +44,24 @@ entity_picker <- function(entity){
   
     ggtitle(paste("Total Contributions from", entity, "Committees by State \n(2011-2012 Federal Election Cycle)", sep = " ")) +
     labs(x = "State", y = "Total Contributions (millions of dollars)") +
+<<<<<<< HEAD
     
     scale_y_continuous(trans = "log2")
+=======
+
+    scale_y_continuous(breaks = c(0e+00, 1e+08, 2e+08, 3e+08, 4e+08),
+                       labels = c("0", "100", "200", "300", "400"))
+>>>>>>> 8a7b3821bd8934c337e0411c7e8baae867eebe5d
 }
 
-entity_picker(entity = "PAC")
+entity_picker(entity = "PAC") +
+  scale_y_continuous(breaks = c(0e+00, 0.5e+06, 1e+06, 1.5e+06, 2e+06, 2.5e+06, 3e+06, 3.5e+06, 4e+06, 4.5e+06),
+                     labels = c("0", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5"))
 entity_picker(entity = "ORG")
-entity_picker(entity = "PTY")
+entity_picker(entity = "PTY") +
+  labs(y = "Total Contributions (thousands of dollars)") +
+  scale_y_continuous(breaks = c(0, 250000, 500000, 750000, 1000000),
+                     labels = c("0", "250", "500", "750", "1000"))
 ```
 
 For our second graph, we wanted to examine if there was a correlation between the amount of money given to a candidate committee and whether or not the candidate won or lost in the general election.  We additionally wanted to examine whether a candidate's incumbency affected win or loss.  To accomplish this, we mapped candidate committee to the x-axis and transaction sum of contributions to the y-axis, using a dot plot to most effectively show overall trends.  We then mapped win or loss to color for a clear contrast, and we facet wrapped by incumbency to display two distinct graphs side by side.
