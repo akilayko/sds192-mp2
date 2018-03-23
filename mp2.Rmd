@@ -90,7 +90,9 @@ ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = new_ge_
                      labels = c("0", "2", "4", "6"))
 ```
 
-For our third graph, we wanted to examine if there is a trend with the categorization (entity types) of the highest campaign donors during this election cycle. 
+For our third and final graph, we wanted to examine if there is a trend with the categorization (entity types) of the highest campaign donors during this election cycle. In addition, some wrangling based on the percent of all contributing donors that the entity types make up was also conducted. To view this data, we mapped the discrete entity types to the x-axis, the sum of donations to the y-axis, and mapped the percentage of total entity groups of this category out of all entity groups to a two-color gradient scale.
+
+From this graph, we learn that groups with invalid entity categorizations and candidates donated the most in total during the election cycle. Another conclusion that can be drawn is that although the lions' share of the groups who donate are candidate entities, the invalid entities that represent fewer than a quarter of the donation groups donates at least ten times more money than any other group with similar representation percentage. The implications of this data is that some loopholes and liberties of the FEC's guidlines are being taken, for there are limits on how much certain entities can contribute to campaigns, but if the said entities do not conform to such categories, there is no limit on that entitiy's fiscal involvement, and that is made clear by the astronomical amount of their involvement.
 
 ```{r, warning = FALSE, message = FALSE}
 # name and types/designations of the highest-contributing committees
@@ -122,14 +124,16 @@ contri_commit <- contri_commit %>%
 mutable_data <- contri_commit %>%
   filter(!is.na(entity_type)) %>%
   group_by(entity_type) %>%
-  filter(str_detect(cand_id, govt_entity)) %>%
+  filter(str_detect(cand_id, govt_entity))
+
+mutable_data <- mutable_data %>%
   mutate(entity_count = n(),
          percent = entity_count/nrow(mutable_data)*100,
          transaction_sum = sum(transaction_amt)) %>%
   arrange(desc(transaction_sum))
 
 # graphing it
-ggplot(mutable_data, aes(x = reorder(entity_type, -transaction_sum), y = transaction_sum)) +
+ggplot(mutable_data, aes(x = reorder(entity_type, -transaction_sum), y = transaction_sum, fill = percent)) +
   geom_bar(stat = "identity", position = position_dodge(), width  = 0.7) +
   theme(axis.text.x = element_text(size = rel(0.9), angle = 7.5, hjust = 1))
 }
@@ -138,9 +142,12 @@ plot_3 <- contributions_by(govt_entity = "H")
 
 plot_3 +
   ggtitle("Contribution to House Candidates by Entity Type") +
-  labs(x = "Entity Type", y = "Net Amount of Donations by Entities (millions of dollars)") +
+  labs(x = "Entity Type", y = "Net Amt. of Donate. by Entit. (millions of dollars)", fill = "Perc. of Entit.") +
   scale_x_discrete(labels = c("Inv.", "Cand.", "Cand. Cmte.", "Cmte.", "Indv.", "Org.", "Pol. Actn. Cmte.", "Pty. Org.")) +
-  scale_y_continuous(breaks = c(0, 50000000, 100000000, 150000000, 200000000, 250000000, 300000000, 350000000),
-                     labels = c("0", "50", "100", "150", "200", "250", "300", "350"))
+  scale_y_continuous(breaks = c(0, 50000000, 100000000, 150000000, 200000000, 250000000, 300000000),
+                     labels = c("0", "50", "100", "150", "200", "250", "300")) +
+  scale_fill_gradient(low = "#b6f9dc", high = "#01693c",
+                        breaks = c(25,50,75),
+                        labels = c("25%", "50%", "75%"))
 ```
 [^1]: Link to GitHub repository: https://github.com/akilayko/sds192-mp2
