@@ -20,6 +20,7 @@ library(tidyverse)
 
 #wrangling
 state_spending <- contributions %>%
+  subset(state != '') %>% 
   group_by(state) %>%
   summarise(total_cont = sum(transaction_amt)) %>%
   arrange(desc(total_cont))
@@ -28,8 +29,8 @@ state_spending <- contributions %>%
 ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont)) +
   geom_col() +
   theme(axis.text.x = element_text(size = rel(0.9), angle = 80, hjust = 1)) +
-  ggtitle("Title") +
-  labs(x = "State", y = "Total Contribution (million dollars)") +
+  ggtitle("Total Contributions to Committees by State in the 2011-2012 Federal Election Cycle") +
+  labs(x = "State", y = "Total Contributions (millions of dollars)") +
   scale_y_continuous(breaks = c(0e+00, 1e+08, 2e+08, 3e+08, 4e+08),
                      labels = c("0", "100", "200", "300", "400"))
 
