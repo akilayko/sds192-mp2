@@ -16,7 +16,15 @@ load("contributions.rda")
 library(tidyverse)
 ```
 
-This graphic shows 
+This projects takes a look at the data on the 2011-2012 federal election cycle. We chose to primarily analyze the allocation of contributions from committees. We wanted to find out where the most money was being spent, by who, for whom, and what the correlation was between spending and the final election result. 
+
+These first 3 graphics show total contributions by state from PAC (Political Action Committee), ORG (organization, neither a committee nor a person), and PTY (Party Organization) committees for all races during the federal election cycle. The states are on the x-axis, and the sum of contributions for a given type of committee (called "entity type" in the source data) is on the y-axis. 
+
+From these visualizations, we can see that each type of committee spent most of their money from slightly different states. Washington, D.C. is by far the highest contributor to elections for both PAC and Party Committees. Because these transaction data are mostly representative of house and senate elections, these graphics reveal the large influence of DC-based committees on state and district elections, occuring hundereds or thousands of miles away. This is an important aspect of our house and senate elections: a vote made by a local group of people is in reality influenced by people in Washington, who may not have those communities' best interests in mind. 
+
+Another interesting aspect of these graphs is comparing the states with the most contributions between types of committees. Since most PACs are based in DC, it is intuitive that DC would have the most contributions by far. However, it is interesting that we see a shift in the most-contributing state for Organization Committees. Here, Virginia is the most-contributing state, followed by DC, Maryland, and California. California's place can be axplained by the large popualtion, but Maryland and Virginia's placements seem to be because of some factor associated with geographic proximity to DC. So, while PACs are based more in DC, Organizations seem to be located primarily in the surrounding states. 
+
+Finally, the party committee graph also shows an overwhelming majority of contributions originating from DC, which is to be expected as political parties are based in the capital. But, the second most-contributing state is Iowa, which did not show up in the top of any of the other graphs. This is due to the fact that Iowa is the site of the first caucus of the election cycle. Unlike PACs and organizations, parties take special interest in winning this initial, possibly precedent-setting and highly-watched caucus. The amount of attention invested in this small state has recieved criticism for being undemocratic because it amplifies the voices of a small group of people. Our analysis shows that attention isn't the only thing being disproportionately given to Iowa: money is involved as well. 
 
 
 ```{r, warning = FALSE, message = FALSE}
