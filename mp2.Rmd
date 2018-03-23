@@ -21,6 +21,7 @@ library(tidyverse)
 
 # wrangling : creating new data frame with relevant information from contributions data frame
 state_spending <- contributions %>%
+  subset(state != '') %>% 
   group_by(state) %>%
   summarise(total_cont = sum(transaction_amt)) %>%
   arrange(desc(total_cont))
@@ -29,8 +30,13 @@ state_spending <- contributions %>%
 ggplot(data = state_spending, aes(x = reorder(state,-total_cont), y = total_cont)) +
   geom_col() +
   theme(axis.text.x = element_text(size = rel(0.9), angle = 80, hjust = 1)) +
+
   ggtitle("Spending By State") +
   labs(x = "State", y = "Total Contribution (million dollars)") +
+
+  ggtitle("Total Contributions to Committees by State in the 2011-2012 Federal Election Cycle") +
+  labs(x = "State", y = "Total Contributions (millions of dollars)") +
+
   scale_y_continuous(breaks = c(0e+00, 1e+08, 2e+08, 3e+08, 4e+08),
                      labels = c("0", "100", "200", "300", "400"))
 ```
@@ -87,11 +93,15 @@ contri_commit <- committee_info %>%
 mutable_data <- contri_commit %>%
   filter(!is.na(org_type)) %>%
   group_by(org_type) %>%
+  filter(str_detect(cand_id, "H")) %>%
   arrange(desc(transaction_amt))
 
-ggplot(mutable_data, aes(x = org_type, y = transaction_amt, fill = cmte_dsgn)) +
+ggplot(mutable_data, aes(x = cmte_dsgn, y = transaction_amt, fill = org_type)) +
   geom_bar(stat = "identity", position = position_dodge(), width  = 0.7) +
-  theme(legend.position = "top")
+  theme(legend.position = "top",
+        axis.text.x = element_text(size = rel(0.9), angle = 6, hjust = 1))
+  # scale_x_discrete(name = "Interest Group Category",
+  #                  labels = c("Individual","Corp.","Labor Org.","Membership Org.", "Trade Assn.","Cooperative","Corp. w/o capital stock"))
 
 # write a function for the graphical representation of this!
 ```
