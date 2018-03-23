@@ -16,7 +16,11 @@ load("contributions.rda")
 library(tidyverse)
 ```
 
+<<<<<<< HEAD
 This graphic shows 
+=======
+
+>>>>>>> 74d5389085da73c12d850f3cfac03ceed6f6ccfe
 
 ```{r, warning = FALSE, message = FALSE}
 # spending by state (which state's elections are most contributed to?)
@@ -94,7 +98,7 @@ ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = new_ge_
 
 For our third and final graph, we wanted to examine if there is a trend with the categorization (entity types) of the highest campaign donors during this election cycle. In addition, some wrangling based on the percent of all contributing donors that the entity types make up was also conducted. To view this data, we mapped the discrete entity types to the x-axis, the sum of donations to the y-axis, and mapped the percentage of total entity groups of this category out of all entity groups to a two-color gradient scale.
 
-From this graph, we learn that groups with invalid entity categorizations and candidates donated the most in total during the election cycle. Another conclusion that can be drawn is that although the lions' share of the groups who donate are candidate entities, the invalid entities that represent fewer than a quarter of the donation groups donates at least ten times more money than any other group with similar representation percentage. The implications of this data is that some loopholes and liberties of the FEC's guidlines are being taken, for there are limits on how much certain entities can contribute to campaigns, but if the said entities do not conform to such categories, there is no limit on that entitiy's fiscal involvement, and that is made clear by the astronomical amount of their involvement.
+From this graph, we learn that groups with invalid entity categorizations and candidates donated the most in total during the election cycle. Another conclusion that can be drawn is that although the lions' share of the groups who donate are candidate entities, the invalid entities that represent fewer than a quarter of the donation groups donates at least ten times more money than any other group with similar representation percentage. The implications of this data is that some loopholes and liberties of the FEC's guidlines are being taken, for there are limits on how much certain entities can contribute to campaigns, but if the said entities do not conform to such categories, there is no limit on that entitiy's fiscal involvement, and that is made clear by the astronomical amount of their involvement. 
 
 ```{r, warning = FALSE, message = FALSE}
 # name and types/designations of the highest-contributing committees
@@ -154,4 +158,7 @@ plot_3 +
                         breaks = c(25,50,75),
                         labels = c("25%", "50%", "75%"))
 ```
-[^1]: Link to GitHub repository: https://github.com/akilayko/sds192-mp2
+
+
+
+^1^: Link to GitHub repository: https://github.com/akilayko/sds192-mp2
