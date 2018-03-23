@@ -141,8 +141,8 @@ ggplot(mutable_data, aes(x = reorder(entity_type, -transaction_sum), y = transac
 plot_3 <- contributions_by(govt_entity = "H")
 
 plot_3 +
-  ggtitle("Contribution to House Candidates by Entity Type") +
-  labs(x = "Entity Type", y = "Net Amt. of Donate. by Entit. (millions of dollars)", fill = "Perc. of Entit.") +
+  ggtitle("Contribution to House Candidates by Entity Type\n(2011-2012 Federal Election Cycle)") +
+  labs(x = "Entity Type", y = "Net Amount of Donations by Entities (millions of dollars)", fill = "Percentage\nof Entities") +
   scale_x_discrete(labels = c("Inv.", "Cand.", "Cand. Cmte.", "Cmte.", "Indv.", "Org.", "Pol. Actn. Cmte.", "Pty. Org.")) +
   scale_y_continuous(breaks = c(0, 50000000, 100000000, 150000000, 200000000, 250000000, 300000000),
                      labels = c("0", "50", "100", "150", "200", "250", "300")) +
