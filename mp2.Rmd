@@ -16,15 +16,15 @@ load("contributions.rda")
 library(tidyverse)
 ```
 
-This project takes a look at the data on the 2011-2012 federal election cycle. We chose to primarily analyze the allocation of contributions from committees. We wanted to find out where the most money was being spent, by who, for whom, and what the correlation was between spending and the final election result. 
+This project looks at data on the 2011-2012 election. We analyze the allocation of contributions from committees. We find out where the most money was being spent, by who, for whom, and what the correlation was between spending and outcome. 
 
-These first 3 graphics show total contributions by state from political action committee, organizations, and party organizations committees for all races during the federal election cycle. The states are on the x-axis, and the sum of contributions for a given type of committee (entity type) is on the y-axis. 
+These first 3 graphics show total contributions by state from PACs, organizations, and party organizations committees for the federal election. The states are on the x-axis, and the sum of contributions for a given type of committee is on the y-axis. 
 
-From these visualizations, we can see that each type of committee spent most of their money from different states. Washington, D.C. is by far the highest contributor to elections for both PACs and PCs. Because these transaction data represent house and senate elections, these graphics reveal the large influence of DC-based committees on state and district elections, occurring across the country. This is an important aspect of our house and senate elections: a vote made by a local group of people is in reality influenced by people in Washington, who may not share those communities' interests. 
+We can see each committee type spent most of their money from different states. Washington, D.C. is the highest contributor to elections for both PACs and PCs. Because this data represents congressional elections, these graphics reveal the influence of DC committees on elections across the country. This is an important aspect of congressional elections: votes made by locals are influenced by people in Washington, who may not share interests. 
 
-Another interesting aspect of these graphs is comparing the states with the most contributions between types of committees. Since most PACs are based in DC, it is intuitive that DC would have the most contributions by far. However, it is interesting that we see a shift in the most-contributing state for Organization Committees. Here, Virginia is the most-contributing state, followed by DC, Maryland, and California. California's place can be explained by the large population, but Maryland and Virginia's placements seem to be because of some factor associated with geographic proximity to DC. So, while PACs are based more in DC, Organizations seem to be located primarily in the surrounding states. 
+Another interesting aspect of these graphs is comparing the states with most contributions between committee types. Most PACs are in DC, so it's intuitive that DC has the most contributions. Virginia is the most-contributing state for organizations, followed by DC, Maryland, and California. California's place is explained by population, but Maryland and Virginia's placements are because of their geographic proximity to DC. While PACs are based in DC, organizations are located primarily in surrounding states. 
 
-Finally, the party committee graph also shows an overwhelming majority of contributions originating from DC, which is to be expected as political parties are based in the capital. But, the second most-contributing state is Iowa, which did not show up in the top of any of the other graphs. This is due to the fact that Iowa is the site of the first caucus of the election cycle. Unlike PACs and organizations, parties take special interest in winning this initial, possibly precedent-setting and highly-watched caucus. The amount of attention invested in this small state has received criticism for being undemocratic because it amplifies the voices of a small group of people. Our analysis shows that attention isn't the only thing being disproportionately given to Iowa: money is involved as well. 
+The party committee graph also shows a majority of contributions originating from DC, since political parties are based in the capital. The second highest state is Iowa, which didn't show up on top of any of the other graphs. Iowa is the site of the first caucus of the election. Unlike PACs and organizations, parties take interest in winning this initial, precedent-setting caucus. The amount of attention invested in this small state has received criticism for being undemocratic because it amplifies the voices of a small group of people. Our analysis shows that attention isn't the only thing disproportionately given to Iowa: money is, too.  
 
 
 ```{r, warning = FALSE, message = FALSE}
@@ -51,19 +51,25 @@ entity_picker <- function(entity){
     labs(x = "State", y = "Total Contribution (million dollars)") +
   
     ggtitle(paste("Total Contributions from", entity, "Committees by State \n(2011-2012 Federal Election Cycle)", sep = " ")) +
-    labs(x = "State", y = "Total Contributions (millions of dollars)") +
+    labs(x = "State", y = "Total Contributions ($)") +
 
-    scale_y_continuous(trans = "log2")
+    scale_y_continuous(trans = "log2") 
 }
 
-entity_picker(entity = "PAC")
-entity_picker(entity = "ORG")
-entity_picker(entity = "PTY")
+entity_picker(entity = "PAC") +
+  scale_y_continuous(breaks = c(16, 1024, 65536, 4194304),
+                     labels = c("16", "1024", "65536", "4194304"))
+entity_picker(entity = "ORG") +
+  scale_y_continuous(breaks = c(32, 4096, 524288, 67108864),
+                     labels = c("32", "4096", "524288", "67108864"))
+entity_picker(entity = "PTY") +
+  scale_y_continuous(breaks = c(16, 512, 16384, 524288),
+                     labels = c("16", "512", "16384", "524288"))
 ```
 
-For our second graph, we wanted to examine if there was a correlation between the amount of money given to a candidate committee and whether or not the candidate won or lost in the general election.  We additionally wanted to examine whether a candidate's incumbency affected win or loss.  To accomplish this, we mapped candidate committee to the x-axis and transaction sum of contributions to the y-axis, using a dot plot to most effectively show overall trends.  We then mapped win or loss to color for a clear contrast, and we facet wrapped by incumbency to display two distinct graphs side by side.
+For our second graph, we wanted to examine if there was a correlation between amount of money given to a candidate committee, the candidate's outcome in the election and whether a candidate's incumbency affected the outcome.  To accomplish this, we mapped candidate committee to the x-axis and transaction sum of contributions to the y-axis, using a dot plot.  We mapped outcome to color and we facet wrapped by incumbency.
 
-From this graph, we can learn that higher contributions do not necessarily correlate to victory, that incumbents are more likely to win than non-incumbents, and that victories are most likely for those who receive relatively little in contributions and are incumbent.  The results contrasted with our expectation that the more money contributed to the committee, the more likely the candidate was to win.  However, the results did match our expectation that incumbents have a higher frequency of victory due to their experience and visibility among the constituency.
+From this graph, we learn higher contributions don't necessarily correlate to victory and incumbents are more likely to win than non-incumbents.  The results contrasted with our expectation that the more contributed to the committee, the more likely the candidate was to win.  The results did match our expectation that incumbents have a higher frequency of victory due to their experience and visibility among the constituency.
 
 ```{r, warning = FALSE, message = FALSE}
 # sum of money given to candidate committees
@@ -100,9 +106,9 @@ ggplot(data = cand_spending, aes(x = cand_id, y = transaction_sum, col = new_ge_
                      labels = c("0", "2", "4", "6"))
 ```
 
-For our third and final graph, we wanted to examine if there is a trend with categorization (entity types) of the highest campaign donors during the election and percent of all contributing donors the entity types make up. To view this data, we mapped entity types to x-axis, donation sum to y-axis, and percentage to a gradient.
+For our final graph, we wanted to examine if there is a trend with categorization of the highest campaign donors during the election and percent of all contributing donors the entity types make up. To view this data, we mapped entity types to x-axis, donation sum to y-axis, and percentage to a gradient.
 
-From this graph, we learn that groups with invalid entity categorizations and candidates donated the most in total during the election cycle. Another conclusion that can be drawn is that although the lions' share of the groups who donate are candidate entities, the invalid entities that represent fewer than a quarter of the donation groups donates at least ten times more money than any other group with similar representation percentage. The implications of this data is that some loopholes and liberties of the FEC's guidlines are being taken, for there are limits on how much certain entities can contribute to campaigns, but if the said entities do not conform to such categories, there is no limit on that entitiy's fiscal involvement, and that is made clear by the astronomical amount of their involvement. 
+From this bar graph, we learn that invalid and candidates entities donated the most during the election. Although the most groups who donate are candidates, invalids that represent few of the donation groups donate ten times more money than any others of similar standing. The implications are some liberties are being taken with the FEC's guidelines, for there are limits on how much certain entities can contribute to campaigns. If they don't conform to categories, there is no limit on their involvement. 
 
 ```{r, warning = FALSE, message = FALSE}
 # name and types/designations of the highest-contributing committees
@@ -145,7 +151,8 @@ mutable_data <- mutable_data %>%
 # graphing it
 ggplot(mutable_data, aes(x = reorder(entity_type, -transaction_sum), y = transaction_sum, fill = percent)) +
   geom_bar(stat = "identity", position = position_dodge(), width  = 0.7) +
-  theme(axis.text.x = element_text(size = rel(0.9), angle = 7.5, hjust = 1))
+  theme(axis.text.x = element_text(size = rel(0.9), angle = 7.5, hjust = 1)) +
+  scale_y_continuous(trans = "log2")
 }
 
 # making a plot by House candidates
@@ -154,10 +161,9 @@ plot_3 <- contributions_by(govt_entity = "H")
 # bells and whistles
 plot_3 +
   ggtitle("Contribution to House Candidates by Entity Type\n(2011-2012 Federal Election Cycle)") +
-  labs(x = "Entity Type", y = "Net Amount of Donations by Entities (millions of dollars)", fill = "Percentage\nof Entities") +
+  labs(x = "Entity Type", y = "Net Amount of Donations by Entities ($)", fill = "Percentage\nof Entities") +
   scale_x_discrete(labels = c("Inv.", "Cand.", "Cand. Cmte.", "Cmte.", "Indv.", "Org.", "Pol. Actn. Cmte.", "Pty. Org.")) +
-  scale_y_continuous(breaks = c(0, 50000000, 100000000, 150000000, 200000000, 250000000, 300000000),
-                     labels = c("0", "50", "100", "150", "200", "250", "300")) +
+  scale_y_continuous(labels = c("32", "4096", "524288", "67108864")) +
   scale_fill_gradient(low = "#b6f9dc", high = "#01693c",
                         breaks = c(25,50,75),
                         labels = c("25%", "50%", "75%"))
