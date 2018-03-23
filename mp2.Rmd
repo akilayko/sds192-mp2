@@ -59,9 +59,11 @@ entity_picker <- function(entity){
 entity_picker(entity = "PAC") +
   scale_y_continuous(breaks = c(16, 1024, 65536, 4194304),
                      labels = c("16", "1024", "65536", "4194304"))
+
 entity_picker(entity = "ORG") +
   scale_y_continuous(breaks = c(32, 4096, 524288, 67108864),
                      labels = c("32", "4096", "524288", "67108864"))
+
 entity_picker(entity = "PTY") +
   scale_y_continuous(breaks = c(16, 512, 16384, 524288),
                      labels = c("16", "512", "16384", "524288"))
