@@ -16,11 +16,8 @@ load("contributions.rda")
 library(tidyverse)
 ```
 
-<<<<<<< HEAD
 This graphic shows 
-=======
 
->>>>>>> 74d5389085da73c12d850f3cfac03ceed6f6ccfe
 
 ```{r, warning = FALSE, message = FALSE}
 # spending by state (which state's elections are most contributed to?)
