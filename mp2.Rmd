@@ -173,4 +173,4 @@ plot_3 +
 
 
 
-^1^: Link to GitHub repository: https://github.com/akilayko/sds192-mp2
+^1^Link to GitHub repository: https://github.com/akilayko/sds192-mp2
